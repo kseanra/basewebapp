@@ -1,4 +1,8 @@
 using basicapi.Configurations;
+using Microsoft.EntityFrameworkCore;
+using basicapi.Data;
+using Microsoft.EntityFrameworkCore;
+using basicapi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +14,11 @@ builder.Services.AddControllers();
 
 builder.Services.Configure<DbConfig>(builder.Configuration.GetSection("db"));
 
-builder.Services.AddSingleton<IUserRepository, basicapi.Infrastructrue.Services.UserRepository>();
+builder.Services.AddScoped<IUserRepository, basicapi.Infrastructrue.Services.EfUserRepository>();
 
+// Register AppDbContext with SQLite
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
