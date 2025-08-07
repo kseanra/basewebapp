@@ -1,0 +1,6 @@
+@basicapi_HostAddress = http://localhost:5166
+
+GET {{basicapi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
