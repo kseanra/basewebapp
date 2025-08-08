@@ -50,6 +50,9 @@ namespace basicapi.Controllers
             {
                 return BadRequest("User name cannot be empty.");
             }
+
+            var command = _mapper.Map<CreateUserCommand>(userRequest);
+            _mediator.Send(command).Wait();
             return CreatedAtAction(nameof(GetUsers), new { name = userRequest.Name }, userRequest.Name);
         }
     }

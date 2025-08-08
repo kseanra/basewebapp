@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using basicapi.Data;
 using Microsoft.EntityFrameworkCore;
 using basicapi.Data;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,11 +14,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 // Add AutoMapper and scan for profiles in the assembly
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
 
 // Add MediatR from Application layer
 builder.Services.AddMediatR(cfg => 
     cfg.RegisterServicesFromAssembly(typeof(GetUserByIdQuery).Assembly));
+
+// Add MediatR from Application layer
+builder.Services.AddMediatR(cfg => 
+    cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly));
+
 builder.Services.Configure<DbConfig>(builder.Configuration.GetSection("db"));
 
 builder.Services.AddScoped<IUserRepository, basicapi.Infrastructrue.Services.EfUserRepository>();

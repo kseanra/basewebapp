@@ -19,7 +19,12 @@ namespace basicapi.Infrastructrue.Services
 
         public async Task<User> GetByIdAsync(Guid id)
         {
-            return await _context.Users.FindAsync(id) ?? new User();
+            return await _context.Users.FindAsync(id) ?? new User()
+            {
+                Id = Guid.Empty, // Placeholder for actual implementation
+                Name = "Sample User", // Placeholder for actual implementation
+                Email = "sample@example.com"
+            };
         }
 
         public async Task AddAsync(User user)

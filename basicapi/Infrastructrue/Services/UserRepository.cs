@@ -26,7 +26,12 @@ namespace basicapi.Infrastructrue.Services
         public async Task<User> GetUserByIdAsync(Guid id)
         {
             using var connection = new SQLiteConnection(_dbConfig.ConnectionString);
-            return new User(); // Placeholder for actual implementation
+            return new User()
+            {
+                Id = Guid.NewGuid(), // Placeholder for actual implementation
+                Name = "Sample User", // Placeholder for actual implementation
+                Email = "sample@example.com"
+            }; // Placeholder for actual implementation
             //return await connection.QueryFirstOrDefaultAsync<User>("SELECT * FROM Users WHERE Id = @Id", new { Id = id });
         }
 
