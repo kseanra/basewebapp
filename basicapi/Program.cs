@@ -12,6 +12,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
+// Add MediatR from Application layer
+builder.Services.AddMediatR(cfg => 
+    cfg.RegisterServicesFromAssembly(typeof(GetUserByIdQuery).Assembly));
 builder.Services.Configure<DbConfig>(builder.Configuration.GetSection("db"));
 
 builder.Services.AddScoped<IUserRepository, basicapi.Infrastructrue.Services.EfUserRepository>();

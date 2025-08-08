@@ -17,7 +17,7 @@ namespace basicapi.Infrastructrue.Services
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<User> GetByIdAsync(Guid id)
         {
             return await _context.Users.FindAsync(id) ?? new User();
         }
@@ -34,7 +34,7 @@ namespace basicapi.Infrastructrue.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(Guid id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user != null)
@@ -49,7 +49,7 @@ namespace basicapi.Infrastructrue.Services
             return GetAllAsync();
         }
 
-        public Task<User> GetUserByIdAsync(int id)
+        public Task<User> GetUserByIdAsync(Guid id)
         {
             return GetByIdAsync(id);
         }

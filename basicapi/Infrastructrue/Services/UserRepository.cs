@@ -23,10 +23,11 @@ namespace basicapi.Infrastructrue.Services
             return await connection.QueryAsync<User>("SELECT * FROM Users");
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User> GetUserByIdAsync(Guid id)
         {
             using var connection = new SQLiteConnection(_dbConfig.ConnectionString);
-            return await connection.QueryFirstOrDefaultAsync<User>("SELECT * FROM Users WHERE Id = @Id", new { Id = id });
+            return new User(); // Placeholder for actual implementation
+            //return await connection.QueryFirstOrDefaultAsync<User>("SELECT * FROM Users WHERE Id = @Id", new { Id = id });
         }
 
         public async Task CreateUserAsync(User user)
