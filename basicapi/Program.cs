@@ -12,6 +12,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
+// Add AutoMapper and scan for profiles in the assembly
+builder.Services.AddAutoMapper(typeof(Program));
+
 // Add MediatR from Application layer
 builder.Services.AddMediatR(cfg => 
     cfg.RegisterServicesFromAssembly(typeof(GetUserByIdQuery).Assembly));

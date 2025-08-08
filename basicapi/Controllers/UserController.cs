@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Dapper.Extensions;
 using basicapi.Models;
 using MediatR;
+using AutoMapper;
 
 namespace basicapi.Controllers
 {
@@ -11,12 +12,14 @@ namespace basicapi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public UserController(IMediator mediator)
+        public UserController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
-        
+
         [HttpGet("{id}")]
         public ActionResult<UserResponse> GetUserById(Guid id  = default)
         {
@@ -30,7 +33,9 @@ namespace basicapi.Controllers
             {
                 return NotFound($"User with ID {id} not found.");
             }
-            return Ok(user);
+            // Map User to UserResponse using AutoMapper
+            var userResponse = _mapper.Map<UserResponse>(user);
+            return Ok(userResponse);
         }
         [HttpGet]
         public ActionResult<IEnumerable<UserResponse>> GetUsers()
