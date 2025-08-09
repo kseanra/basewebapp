@@ -39,6 +39,12 @@ public class GlobalExceptionMiddleware
         else if (exception is ValidationException)
         {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            var validationException = exception as ValidationException;
+            return context.Response.WriteAsJsonAsync(new
+            {
+                Message = "Validation failed.",
+                Errors = validationException?.Errors.Select(e => new { e.Key, e.Value })
+            });
         }
         else
         {

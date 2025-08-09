@@ -2,6 +2,7 @@ using basicapi.Configurations;
 using Microsoft.EntityFrameworkCore;
 using basicapi.Data;
 using MediatR;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +18,14 @@ builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
 // Add MediatR from Application layer
 builder.Services.AddMediatR(cfg => 
     cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly));
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(unhandledExceptionBehavior<,>));
 
+// Register pipeline behaviors for MediatR
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(unhandledExceptionBehavior<,>));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+builder.Services.AddValidatorsFromAssembly(typeof(CreateUserValidator).Assembly);
+
+// Add custom middleware for global exception handling
 builder.Services.Configure<DbConfig>(builder.Configuration.GetSection("db"));
 
 builder.Services.AddScoped<IUserRepository, basicapi.Infrastructrue.Services.EfUserRepository>();

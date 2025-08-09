@@ -54,9 +54,9 @@ namespace basicapi.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateUser([FromBody] UserRequest userRequest)
         {
-            if (userRequest == null || string.IsNullOrEmpty(userRequest.Name))
+            if (userRequest == null)
             {
-                return BadRequest("User name cannot be empty.");
+                return BadRequest("Request cannot be empty.");
             }
 
             var command = _mapper.Map<CreateUserCommand>(userRequest);
