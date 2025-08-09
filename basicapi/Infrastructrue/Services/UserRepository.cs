@@ -40,5 +40,10 @@ namespace basicapi.Infrastructrue.Services
             using var connection = new SQLiteConnection(_dbConfig.ConnectionString);
             await connection.ExecuteAsync("INSERT INTO Users (Name, Email) VALUES (@Name, @Email)", user);
         }
+
+        public Task UpdateAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

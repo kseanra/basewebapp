@@ -15,5 +15,8 @@ public class UserProfile : Profile
         CreateMap<CreateUserCommand, User>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email));
+        CreateMap<User, UserResponse>();    
+        CreateMap<GetUsersResult, UsersResponse>()
+            .ForMember(dest => dest.Users, opt => opt.MapFrom(src => src.Users));
     }
 }

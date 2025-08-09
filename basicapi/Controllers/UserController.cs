@@ -4,6 +4,7 @@ using Dapper.Extensions;
 using basicapi.Models;
 using MediatR;
 using AutoMapper;
+using basicapi.Domain.Entities;
 
 namespace basicapi.Controllers
 {
@@ -21,14 +22,14 @@ namespace basicapi.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<UserResponse> GetUserById(Guid id  = default)
+        public async Task<ActionResult<UserResponse>> GetUserById(Guid id = default)
         {
             if (id == default)
             {
                 return BadRequest("User ID cannot be empty.");
             }
 
-            var user = _mediator.Send(new GetUserByIdQuery(id)).Result;
+            var user = await _mediator.Send(new GetUserByIdQuery(id));
             if (user == null)
             {
                 return NotFound($"User with ID {id} not found.");
@@ -38,13 +39,20 @@ namespace basicapi.Controllers
             return Ok(userResponse);
         }
         [HttpGet]
-        public ActionResult<IEnumerable<UserResponse>> GetUsers()
+        public async Task<ActionResult<UsersResponse>> GetUsers()
         {
-            return Ok(new List<UserResponse>());
+            var usersResult = await _mediator.Send(new GetUsersQuery());
+            if (usersResult == null || !usersResult.Users.Any())
+            {
+                return NotFound("No users found.");
+            }
+            // Map User to UserResponse using AutoMapper
+            var userResponses = _mapper.Map<UsersResponse>(usersResult);
+            return Ok(userResponses);
         }
 
         [HttpPost]
-        public ActionResult CreateUser([FromBody] UserRequest userRequest)
+        public async Task<ActionResult> CreateUser([FromBody] UserRequest userRequest)
         {
             if (userRequest == null || string.IsNullOrEmpty(userRequest.Name))
             {
@@ -52,7 +60,7 @@ namespace basicapi.Controllers
             }
 
             var command = _mapper.Map<CreateUserCommand>(userRequest);
-            _mediator.Send(command).Wait();
+            await _mediator.Send(command);
             return CreatedAtAction(nameof(GetUsers), new { name = userRequest.Name }, userRequest.Name);
         }
     }
