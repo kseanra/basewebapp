@@ -20,14 +20,30 @@ public class GlobalExceptionMiddleware
             _logger.LogError(ex, "An unhandled exception occurred while processing the request.");
             await HandleExceptionAsync(context, ex);
         }
+        
     }
 
-    private Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private Task HandleExceptionAsync(HttpContext context, Exception exception )
     {
         // Log the exception (not implemented here for brevity)
         
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        if (exception is NotFoundException)
+        {
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+        }
+        else if (exception is UnauthorizedAccessException)
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        }
+        else if (exception is ValidationException)
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        }
+        else
+        {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        }
 
         return context.Response.WriteAsJsonAsync(new
         {
