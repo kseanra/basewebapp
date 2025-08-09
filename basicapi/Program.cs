@@ -1,9 +1,7 @@
 using basicapi.Configurations;
 using Microsoft.EntityFrameworkCore;
 using basicapi.Data;
-using Microsoft.EntityFrameworkCore;
-using basicapi.Data;
-using AutoMapper;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +17,7 @@ builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
 // Add MediatR from Application layer
 builder.Services.AddMediatR(cfg => 
     cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(unhandledExceptionBehavior<,>));
 
 builder.Services.Configure<DbConfig>(builder.Configuration.GetSection("db"));
 
@@ -35,7 +34,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseHttpsRedirection();
 
 app.MapControllers();

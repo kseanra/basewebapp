@@ -19,12 +19,7 @@ namespace basicapi.Infrastructrue.Services
 
         public async Task<User> GetByIdAsync(Guid id)
         {
-            return await _context.Users.FindAsync(id) ?? new User()
-            {
-                Id = Guid.Empty, // Placeholder for actual implementation
-                Name = "Sample User", // Placeholder for actual implementation
-                Email = "sample@example.com"
-            };
+            return await _context.Users.FindAsync(id) ?? throw new NotFoundException("User", id);
         }
 
         public async Task AddAsync(User user)
@@ -46,6 +41,10 @@ namespace basicapi.Infrastructrue.Services
             {
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new NotFoundException("User", id);
             }
         }
 
