@@ -18,10 +18,6 @@ builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
 
 // Add MediatR from Application layer
 builder.Services.AddMediatR(cfg => 
-    cfg.RegisterServicesFromAssembly(typeof(GetUserByIdQuery).Assembly));
-
-// Add MediatR from Application layer
-builder.Services.AddMediatR(cfg => 
     cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly));
 
 builder.Services.Configure<DbConfig>(builder.Configuration.GetSection("db"));

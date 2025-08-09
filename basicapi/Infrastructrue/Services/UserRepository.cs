@@ -45,5 +45,10 @@ namespace basicapi.Infrastructrue.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task DeleteAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

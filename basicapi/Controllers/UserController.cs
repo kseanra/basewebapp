@@ -63,5 +63,37 @@ namespace basicapi.Controllers
             await _mediator.Send(command);
             return CreatedAtAction(nameof(GetUsers), new { name = userRequest.Name }, userRequest.Name);
         }
+
+        [HttpPut("{userId}")]
+        public async Task<ActionResult> UpdateUser(Guid userId, [FromBody] UserRequest userRequest)
+        {
+            if (userRequest == null || string.IsNullOrEmpty(userRequest.Name) || userId == Guid.Empty)
+            {
+                return BadRequest("User ID and name cannot be empty.");
+            }
+
+            var command = _mapper.Map<UpdateUserCommand>(userRequest) with { UserId = userId };
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteUser(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return BadRequest("User ID cannot be empty.");
+            }
+
+            try
+            {
+                await _mediator.Send(new DeleteUserCommand(id));
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
     }
 }
