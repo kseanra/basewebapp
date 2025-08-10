@@ -65,8 +65,9 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly));
 
 // Register pipeline behaviors for MediatR
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(unhandledExceptionBehavior<,>));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehavior<,>));
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 builder.Services.AddSingleton<ITokenManager, TokenManager>();   
 
 builder.Services.AddValidatorsFromAssembly(typeof(CreateUserValidator).Assembly);

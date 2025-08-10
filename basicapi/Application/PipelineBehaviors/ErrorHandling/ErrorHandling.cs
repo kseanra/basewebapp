@@ -1,12 +1,12 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
-public class unhandledExceptionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class UnhandledExceptionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
     where TResponse : notnull
 {
-    private readonly ILogger<unhandledExceptionBehavior<TRequest, TResponse>> _logger;
+    private readonly ILogger<UnhandledExceptionBehavior<TRequest, TResponse>> _logger;
 
-    public unhandledExceptionBehavior(ILogger<unhandledExceptionBehavior<TRequest, TResponse>> logger)
+    public UnhandledExceptionBehavior(ILogger<UnhandledExceptionBehavior<TRequest, TResponse>> logger)
     {
         _logger = logger;
     }
