@@ -62,5 +62,15 @@ namespace basicapi.Infrastructrue.Services
         {
             return AddAsync(user);
         }
+
+        public Task<User?> GetUserByEmailAsync(string email)
+        {
+            var users = _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (users == null)
+            {
+                return Task.FromResult<User?>(null);
+            }
+            return users;
+        }
     }
 }

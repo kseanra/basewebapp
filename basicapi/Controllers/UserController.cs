@@ -5,9 +5,11 @@ using basicapi.Models;
 using MediatR;
 using AutoMapper;
 using basicapi.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace basicapi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase

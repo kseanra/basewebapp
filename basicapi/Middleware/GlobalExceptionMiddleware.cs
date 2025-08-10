@@ -35,6 +35,11 @@ public class GlobalExceptionMiddleware
         else if (exception is UnauthorizedAccessException)
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            return context.Response.WriteAsJsonAsync(new
+            {
+                Message = "Failed to authenticate.",
+                Details = exception.Message // You might want to avoid exposing detailed error messages in production
+            });
         }
         else if (exception is ValidationException)
         {
