@@ -24,16 +24,7 @@ namespace basicapi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UserResponse>> GetUserById(Guid id = default)
         {
-            if (id == default)
-            {
-                return BadRequest("User ID cannot be empty.");
-            }
-
             var user = await _mediator.Send(new GetUserByIdQuery(id));
-            if (user == null)
-            {
-                return NotFound($"User with ID {id} not found.");
-            }
             // Map User to UserResponse using AutoMapper
             var userResponse = _mapper.Map<UserResponse>(user);
             return Ok(userResponse);
@@ -42,10 +33,6 @@ namespace basicapi.Controllers
         public async Task<ActionResult<UsersResponse>> GetUsers()
         {
             var usersResult = await _mediator.Send(new GetUsersQuery());
-            if (usersResult == null || !usersResult.Users.Any())
-            {
-                return NotFound("No users found.");
-            }
             // Map User to UserResponse using AutoMapper
             var userResponses = _mapper.Map<UsersResponse>(usersResult);
             return Ok(userResponses);
@@ -54,11 +41,6 @@ namespace basicapi.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateUser([FromBody] UserRequest userRequest)
         {
-            if (userRequest == null)
-            {
-                return BadRequest("Request cannot be empty.");
-            }
-
             var command = _mapper.Map<CreateUserCommand>(userRequest);
             await _mediator.Send(command);
             return CreatedAtAction(nameof(GetUsers), new { name = userRequest.Name }, userRequest.Name);
@@ -67,11 +49,7 @@ namespace basicapi.Controllers
         [HttpPut("{userId}")]
         public async Task<ActionResult> UpdateUser(Guid userId, [FromBody] UserRequest userRequest)
         {
-            if (userRequest == null || string.IsNullOrEmpty(userRequest.Name) || userId == Guid.Empty)
-            {
-                return BadRequest("User ID and name cannot be empty.");
-            }
-
+        
             var command = _mapper.Map<UpdateUserCommand>(userRequest) with { UserId = userId };
             await _mediator.Send(command);
             return NoContent();
@@ -80,20 +58,8 @@ namespace basicapi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(Guid id)
         {
-            if (id == Guid.Empty)
-            {
-                return BadRequest("User ID cannot be empty.");
-            }
-
-            try
-            {
-                await _mediator.Send(new DeleteUserCommand(id));
-                return NoContent();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            await _mediator.Send(new DeleteUserCommand(id));
+            return NoContent();
         }
     }
 }
