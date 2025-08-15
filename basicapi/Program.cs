@@ -77,9 +77,20 @@ builder.Services.Configure<DbConfig>(builder.Configuration.GetSection("db"));
 
 builder.Services.AddScoped<IUserRepository, basicapi.Infrastructrue.Services.EfUserRepository>();
 
-// Register AppDbContext with SQLite
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Register AppDbContext with SQLite or MySQL based on appsettings.json
+var dbProvider = builder.Configuration["DbProvider"] ?? "sqlite";
+if (dbProvider.ToLower() == "mysql")
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseMySql(
+            builder.Configuration.GetConnectionString("DefaultConnection"),
+            new MySqlServerVersion(new Version(8, 0, 36))));
+}
+else
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlite(builder.Configuration["db:ConnectionString"]));
+}
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
