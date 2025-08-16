@@ -57,6 +57,15 @@ builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer
         };
     });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ApiScope", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "api.readwrite");
+    });
+});
+
 // Add AutoMapper and scan for profiles in the assembly
 builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
 

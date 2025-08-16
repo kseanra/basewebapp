@@ -20,7 +20,9 @@ public class TokenManager : ITokenManager
             new Claim(JwtRegisteredClaimNames.Sub, user.Email ?? string.Empty),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim("name", user.Name ?? string.Empty),
-            new Claim("id", user.Id.ToString())
+            new Claim("id", user.Id.ToString()),
+            new Claim("email", user.Email ?? string.Empty),
+            new Claim("scope", "api.readwrite")
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["IdentityServer:IssuerSigningKey"]));

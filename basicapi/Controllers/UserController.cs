@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace basicapi.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "ApiScope")]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase

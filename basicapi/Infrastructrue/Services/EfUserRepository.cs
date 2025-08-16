@@ -60,6 +60,7 @@ namespace basicapi.Infrastructrue.Services
 
         public Task CreateUserAsync(User user)
         {
+            user.Password = PasswordHasher.HashPassword(user.Password ?? string.Empty);
             return AddAsync(user);
         }
 

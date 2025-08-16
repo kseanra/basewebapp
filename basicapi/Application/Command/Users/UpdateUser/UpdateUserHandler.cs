@@ -22,7 +22,6 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand>
         }
 
         user.Name = request.Name;
-        user.Email = request.Email;
 
         await _userRepository.UpdateAsync(user);
     }

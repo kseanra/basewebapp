@@ -11,7 +11,20 @@ namespace basicapi.Infrastructrue.Services
 
         public static bool VerifyPassword(string password, string hashedPassword)
         {
-            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+            try {
+                if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(hashedPassword))
+                {
+                    return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                Console.WriteLine($"Error verifying password: {ex.Message}");
+                return false;
+            }
+
+            return false;
         }
     }
 }
