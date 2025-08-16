@@ -63,14 +63,27 @@ namespace basicapi.Infrastructrue.Services
             return AddAsync(user);
         }
 
-        public Task<User?> GetUserByEmailAsync(string email)
+        public async Task<User?> GetUserByEmailAsync(string? email)
         {
-            var users = _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-            if (users == null)
+            if (string.IsNullOrEmpty(email))
             {
-                return Task.FromResult<User?>(null);
+                return null;
             }
-            return users;
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<User?> GetUserByEmailAndPasswordAsync(string? email, string? password)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                return null;
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user != null && PasswordHasher.VerifyPassword(password, user.Password ?? ""))
+            {
+                return user;
+            }
+            return null;
         }
     }
 }

@@ -17,9 +17,9 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResult>
     public async Task<LoginResult> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         // Logic for handling login
-        var user = await _userRepository.GetUserByEmailAsync(request.Email);
+        var user = await _userRepository.GetUserByEmailAndPasswordAsync(request?.Email, request?.Password);
 
-        if (user == null || user.Password != request.Password)
+        if (user == null)
         {
             throw new UnauthorizedAccessException("Invalid email or password.");
         }
