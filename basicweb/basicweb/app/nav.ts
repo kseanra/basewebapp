@@ -3,7 +3,7 @@ import { Palette, Upload, Image, Sparkles } from "lucide-react";
 export const navigationItems = [
   {
     title: "Upload Photo",
-    url: "Upload",
+    url: "/Upload",
     icon: Upload,
     description: "Start with your room"
   },
