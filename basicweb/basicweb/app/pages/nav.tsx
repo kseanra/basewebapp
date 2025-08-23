@@ -1,4 +1,4 @@
-import { Calendar, CircleUserRound, Home, Inbox, Search, Settings } from "lucide-react"
+import { Calendar, CircleUserRound, Home, LogOut, Search, Settings } from "lucide-react"
 import { useNavigate } from "react-router";
 import {
   Sidebar,
@@ -27,6 +27,11 @@ const items = [
     title: "Settings",
     url: "/settings",
     icon: Settings,
+  },
+  {
+    title: "Sign Out",
+    url: "/sign-out",
+    icon: LogOut,
   },
 ]
 

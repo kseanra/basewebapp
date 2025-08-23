@@ -7,21 +7,7 @@ import {
   ScrollRestoration,
   redirect
 } from "react-router";
-import { Link, useLocation } from "react-router-dom";
-import { Palette, Upload, Image, Sparkles } from "lucide-react";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarHeader,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { useLocation } from "react-router-dom";
 import type { Route } from "./+types/root";
 import "./app.css";
 

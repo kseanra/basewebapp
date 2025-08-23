@@ -1,26 +1,9 @@
-import { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import { Palette, Upload, Image, Sparkles } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
-import {navigationItems} from "../nav";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarHeader,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { Outlet } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-    const location = useLocation();
+export default function Layout() {
     return (  
-      <div className="w-full h-screen grid grid-flow-col items-center justify-items-center">
+      <div className="w-full h-screen grid grid-flow-col">
         <Outlet />
       </div>
      );

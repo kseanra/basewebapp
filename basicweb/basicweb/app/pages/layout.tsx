@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Palette, Upload, Image, Sparkles } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import {navigationItems} from "../nav";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/app/pages/nav";
 import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
@@ -28,8 +27,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-    const location = useLocation();
+export default function Layout() {
     return (
     <SidebarProvider>
       <AppSidebar />

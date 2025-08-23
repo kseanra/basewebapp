@@ -1,13 +1,4 @@
 import type { Route } from "../routes/+types/home";
-import { Welcome } from "../welcome/welcome";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
 
 export function meta({}: Route.MetaArgs) {
   return [

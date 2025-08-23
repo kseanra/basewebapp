@@ -11,13 +11,20 @@
             "projectPath": "${workspaceFolder}/basicapi/BasicApi.csproj"
         },
         {
+            "name": "basicweb",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}/basicweb/basicweb",
+            "preLaunchTask": "web"
+        },
+        {
             "name": "BasicWeb: Vite Dev Server",
-            "type": "pwa-node",
+            "type": "node",
             "request": "launch",
             "cwd": "${workspaceFolder}/basicweb/basicweb",
             "runtimeExecutable": "npm",
             "runtimeArgs": ["run", "dev"],
-            "port": 5173,
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
         }
