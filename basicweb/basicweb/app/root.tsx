@@ -22,7 +22,6 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import {navigationItems} from "./nav";
 import type { Route } from "./+types/root";
 import "./app.css";
 

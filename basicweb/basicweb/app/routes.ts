@@ -13,6 +13,7 @@ export default [
   ]),
   layout("./pages/layout.tsx", [
       route("home","pages/home.tsx"),
-      route("upload", "./pages/upload.tsx"),
+      route("settings", "./pages/settings.tsx"),
+      route("profile", "./pages/profile.tsx")
     ])
  ] satisfies RouteConfig;
