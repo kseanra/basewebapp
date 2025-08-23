@@ -4,30 +4,6 @@ import { LoginForm } from "./login-form";
 import { Gamepad2 } from "lucide-react"
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const auth = localStorage.getItem("auth");
-    if (auth) {
-      console.log("User is already authenticated");
-      navigate("/home");
-    }
-  }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simple mock authentication
-    if (username === "admin" && password === "password") {
-      localStorage.setItem("auth", "true");
-      navigate("/home");
-    } else {
-      setError("Invalid credentials");
-    }
-  };
-
   return (
       <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">

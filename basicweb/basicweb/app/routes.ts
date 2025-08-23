@@ -14,7 +14,7 @@ export default [
   layout("./pages/layout.tsx", [
       route("home","pages/home.tsx"),
       route("settings", "./pages/settings.tsx"),
-      route("profile", "./pages/profile.tsx"),
+      route("game-room", "./pages/game-room.tsx"),
       route("sign-out", "./pages/sign-out.tsx")
     ])
  ] satisfies RouteConfig;

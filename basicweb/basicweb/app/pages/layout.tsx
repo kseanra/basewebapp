@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/breadcrumb"
 
 export default function Layout() {
+  const location = useLocation();
     return (
     <SidebarProvider>
       <AppSidebar />
@@ -42,7 +43,7 @@ export default function Layout() {
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
                 <BreadcrumbLink href="#">
-                  Home
+                  {location.pathname.split("/")}
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />

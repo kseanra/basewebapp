@@ -2,10 +2,38 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AlertCircleIcon } from "lucide-react"
 
 export function LoginForm({className, ...props}: React.ComponentProps<"form">) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const auth = localStorage.getItem("auth");
+    if (auth) {
+      console.log("User is already authenticated");
+      navigate("/home");
+    }
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simple mock authentication
+    if (username === "admin@example.com" && password === "password") {
+      localStorage.setItem("auth", "true");
+      localStorage.setItem("user", JSON.stringify({ name: username, email: username, avatar: "" }));
+      navigate("/home");
+    } else {
+      setError("Invalid credentials");
+    }
+  };
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form onSubmit={handleSubmit} className={cn("flex flex-col gap-6", className)} {...props}>
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Login to your account</h1>
         <p className="text-muted-foreground text-sm text-balance">
@@ -15,7 +43,7 @@ export function LoginForm({className, ...props}: React.ComponentProps<"form">) {
       <div className="grid gap-6">
         <div className="grid gap-3">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+          <Input id="email" type="email" className={error? "border-red-500 focus-visible:ring-red-500" : ""} onChange={(e) => setUsername(e.target.value)} placeholder="email@example.com" required />
         </div>
         <div className="grid gap-3">
           <div className="flex items-center">
@@ -27,8 +55,22 @@ export function LoginForm({className, ...props}: React.ComponentProps<"form">) {
               Forgot your password?
             </a>
           </div>
-          <Input id="password" type="password" required />
-        </div>
+          <Input id="password" onChange={(e) => setPassword(e.target.value)} type="password" className={error? "border-red-500 focus-visible:ring-red-500" : ""}s required />
+        </div> 
+        {error && ( <div className="grid w-full max-w-xl items-start gap-4">
+            <Alert variant="destructive">
+                <AlertCircleIcon />
+                <AlertTitle>{error}</AlertTitle>
+                <AlertDescription>
+                <p>Please verify your login credentials.</p>
+                <ul className="list-inside list-disc text-sm">
+                    <li>Check your email address</li>
+                    <li>Ensure your password is correct</li>
+                    <li>Verify your account status</li>
+                </ul>
+                </AlertDescription>
+            </Alert>
+            </div>)}
         <Button type="submit" className="w-full">
           Login
         </Button>
